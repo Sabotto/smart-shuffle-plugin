@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShuffleEngine = void 0;
-class ShuffleEngine {
+export class ShuffleEngine {
     static trueRandom(array) {
         const list = [...array];
         for (let i = list.length - 1; i > 0; i--) {
@@ -79,4 +76,3 @@ class ShuffleEngine {
         return result;
     }
 }
-exports.ShuffleEngine = ShuffleEngine;
