@@ -1,0 +1,10 @@
+[
+  {
+    "name": "True & Smart Shuffle",
+    "description": "Replaces TIDAL's shuffle with a more random and customizable shuffle.",
+    "author": "Sabotto",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "manifest": "manifest.json"
+  }
+]
