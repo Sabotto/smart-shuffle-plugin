@@ -16,65 +16,58 @@ export class TrueShufflePlugin {
   }
 
   private registerSettingsUI() {
-    if ((window as any).Luna?.Settings) {
-      (window as any).Luna.Settings.registerPluginSettings('True & Smart Shuffle', [
-        {
-          key: 'mode',
-          label: 'Shuffle Algorithm Mode',
-          type: 'select',
-          options: [
-            { label: 'True Random (Uniform Fisher-Yates)', value: 'true_random' },
-            { label: 'Smart Shuffle (Spotify style with Recs)', value: 'smart_shuffle' },
-            { label: 'Least Played First (Rediscover Old Gems)', value: 'least_played' },
-            { label: 'Most Played First (Favorites Heavy)', value: 'most_played' },
-            { label: 'Fun Mode (Artist Separated & Chaotic)', value: 'fun' },
-          ],
-          default: 'true_random',
-          onChange: (val: ShuffleMode) => { pluginSettings.mode = val; },
-        },
-        {
-          key: 'smartShuffleRatio',
-          label: 'Smart Shuffle: Recommendation Frequency (1 rec every N tracks)',
-          type: 'number',
-          min: 1,
-          max: 10,
-          step: 1,
-          default: 3,
-          onChange: (val: number) => { pluginSettings.smartShuffleRatio = val; },
-        },
-        {
-          key: 'smartSampleSize',
-          label: 'Smart Shuffle: Seed Sample Size (Tracks scanned for recommendations)',
-          type: 'number',
-          min: 1,
-          max: 10,
-          step: 1,
-          default: 5,
-          onChange: (val: number) => { pluginSettings.smartSampleSize = val; },
-        },
-        {
-          key: 'playCountExponent',
-          label: 'Least/Most Played: Weight Bias Strength',
-          type: 'number',
-          min: 0.1,
-          max: 3.0,
-          step: 0.1,
-          default: 1.0,
-          onChange: (val: number) => { pluginSettings.playCountExponent = val; },
-        },
-        {
-          key: 'artistSpacing',
-          label: 'Fun Mode: Minimum Song Buffer Between Same Artist',
-          type: 'number',
-          min: 1,
-          max: 5,
-          step: 1,
-          default: 1,
-          onChange: (val: number) => { pluginSettings.artistSpacing = val; },
-        },
-      ]);
-    }
+  // Access Neptune / TidaLuna native settings store
+  const settingsApi = (window as any).neptune?.settings || (window as any).Luna?.Settings;
+
+  if (settingsApi?.register) {
+    settingsApi.register('@YourName/SmartShuffle', [
+      {
+        key: 'mode',
+        name: 'Shuffle Mode',
+        type: 'select',
+        options: [
+          { label: 'True Random (Uniform Fisher-Yates)', value: 'true_random' },
+          { label: 'Smart Shuffle (Spotify style with Recs)', value: 'smart_shuffle' },
+          { label: 'Least Played First', value: 'least_played' },
+          { label: 'Most Played First', value: 'most_played' },
+          { label: 'Fun Mode (Artist Separated)', value: 'fun' },
+        ],
+        default: 'true_random',
+        onChange: (val: ShuffleMode) => { pluginSettings.mode = val; }
+      },
+      {
+        key: 'smartShuffleRatio',
+        name: 'Smart Shuffle Frequency (1 rec every N tracks)',
+        type: 'number',
+        min: 1,
+        max: 10,
+        step: 1,
+        default: 3,
+        onChange: (val: number) => { pluginSettings.smartShuffleRatio = val; }
+      },
+      {
+        key: 'playCountExponent',
+        name: 'Weight Bias Strength',
+        type: 'number',
+        min: 0.1,
+        max: 3.0,
+        step: 0.1,
+        default: 1.0,
+        onChange: (val: number) => { pluginSettings.playCountExponent = val; }
+      },
+      {
+        key: 'artistSpacing',
+        name: 'Fun Mode: Artist Buffer',
+        type: 'number',
+        min: 1,
+        max: 5,
+        step: 1,
+        default: 1,
+        onChange: (val: number) => { pluginSettings.artistSpacing = val; }
+      }
+    ]);
   }
+}
 
   private patchQueueController() {
     const playerStore = (window as any).Tidal?.PlayerStore || (window as any)._tidalStore;

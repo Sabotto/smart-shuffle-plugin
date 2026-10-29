@@ -1,5 +1,6 @@
 [
   {
+    "id": "@Sabotto/SmartShuffle",
     "name": "True & Smart Shuffle",
     "description": "Replaces TIDAL's shuffle with a more random and customizable shuffle.",
     "author": "Sabotto",
