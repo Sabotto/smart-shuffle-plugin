@@ -6,6 +6,19 @@
   "scripts": {
     "build": "tsc"
   },
+  "keywords": [
+    "tidaluna",
+    "tidal",
+    "plugin",
+    "shuffle",
+    "smart-shuffle"
+  ],
+  "author": "Sabotto",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sabotto/smart-shuffle-plugin.git"
+  },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
